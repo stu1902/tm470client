@@ -1,0 +1,7 @@
+{
+  "name": "tm470client",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
