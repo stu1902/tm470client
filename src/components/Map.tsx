@@ -27,7 +27,7 @@ const getUserLocation = () => {
     }
 };
 
-function MyComponent() {
+function MyMap() {
     return (
         <LoadScript
             googleMapsApiKey="AIzaSyDKMu8IDKw9l9aTgCVIKVagqwTg46GLpc0"
@@ -44,4 +44,4 @@ function MyComponent() {
     )
 }
 
-export default React.memo(MyComponent)
+export default React.memo(MyMap)
