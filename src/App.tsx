@@ -3,7 +3,8 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import Login from "./pages/Login";
-import MyMap from "./components/Map";
+import Selector from "./pages/Selector";
+//import MyMap from "./components/Map";
 
 //import MyComponent from "./components/Map";
 
@@ -44,6 +45,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/map">
           <Mapping />
+        </Route>
+        <Route exact path="/select">
+          <Selector />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

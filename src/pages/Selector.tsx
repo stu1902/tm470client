@@ -2,41 +2,40 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/rea
 import React, { useState } from 'react';
 import van from '../images/van.png';
 import { IonGrid, IonRow, IonCol } from '@ionic/react';
-import { personCircle } from "ionicons/icons";
+import {navigateCircle, personCircle} from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { IonItem, IonLabel, IonInput, IonButton, IonIcon, IonAlert } from '@ionic/react';
 
-function validateEmail(email: string) {
-    const re = /^((?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\]))$/;
-    return re.test(String(email).toLowerCase());
-}
-const Login: React.FC = () => {
+const Selector: React.FC = () => {
     const history = useHistory();
-    const [email, setEmail] = useState<string>("12345678");
-    const [password, setPassword] = useState<string>("5060");
+    const [location, setLocation] = useState<string>("Aberystwyth");
+    const [route, setRoute] = useState<string>("Cwmystwyth");
     const [iserror, setIserror] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
-    const handleLogin = () => {
-        if (!email) {
-            setMessage("Please enter a valid email");
+    const handleSelect = () => {
+        if (!location) {
+            setMessage("Please enter a valid delivery location");
             setIserror(true);
             return;
         }
-        if (!validateEmail(email)) {
-            setMessage("Your personnel number is not recognised.");
-            setIserror(true);
-            return;
-        }
-
-        if (!password || password.length !== 4) {
-            setMessage("Please enter your PIN Number");
+        /*
+        if (!validateLocation(location)) {
+            setMessage("This delivery location is not recognised.");
             setIserror(true);
             return;
         }
 
-        const loginData = {
-            "email": email,
-            "password": password
+
+         */
+        if (!route) {
+            setMessage("Please enter your delivery route");
+            setIserror(true);
+            return;
+        }
+
+        const selectData = {
+            "location": location,
+            "route": route
         }
 
     };
@@ -45,7 +44,7 @@ const Login: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>TM470 Login</IonTitle>
+                    <IonTitle>TM470 Route Selector</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen className="ion-padding ion-text-center">
@@ -66,20 +65,18 @@ const Login: React.FC = () => {
                         <IonCol>
                             <IonIcon
                                 style={{ fontSize: "70px", color: "#7a0101" }}
-                                icon={personCircle}
+                                icon={navigateCircle}
                             />
                         </IonCol>
                     </IonRow>
                     <IonRow>
                         <IonCol>
                             <IonItem>
-                                <IonLabel position="floating"> Personnel Number </IonLabel>
+                                <IonLabel position="floating"> Delivery Location </IonLabel>
                                 <IonInput
-                                    type="email"
-                                    value={email}
-                                    minlength={8}
-                                    maxlength={8}
-                                    onIonChange={(e) => setEmail(e.detail.value!)}
+                                    type="text"
+                                    value={location}
+                                    onIonChange={(e) => setLocation(e.detail.value!)}
                                 >
                                 </IonInput>
                             </IonItem>
@@ -89,13 +86,11 @@ const Login: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonItem>
-                                <IonLabel position="floating"> PIN Number</IonLabel>
+                                <IonLabel position="floating"> Delivery Route </IonLabel>
                                 <IonInput
-                                    type="password"
-                                    value={password}
-                                    minlength={4}
-                                    maxlength={4}
-                                    onIonChange={(e) => setPassword(e.detail.value!)}
+                                    type="text"
+                                    value={route}
+                                    onIonChange={(e) => setRoute(e.detail.value!)}
                                 >
                                 </IonInput>
                             </IonItem>
@@ -103,10 +98,10 @@ const Login: React.FC = () => {
                     </IonRow>
                     <IonRow>
                         <IonCol>
-                            <p style={{ fontSize: "small" }}>
-                                By clicking LOGIN you agree to our acceptable use Policy
+                            <p style={{ fontSize: "medium" }}>
+                                Please click SUBMIT to confirm your options.
                             </p>
-                            <IonButton expand="block" onClick={handleLogin}>Login</IonButton>
+                            <IonButton expand="block" onClick={handleSelect}>Submit</IonButton>
                             <p style={{ fontSize: "medium" }}>
                                 Don't have an account? Please contact your line manager.
                             </p>
@@ -119,4 +114,4 @@ const Login: React.FC = () => {
     );
 };
 
-export default Login;
+export default Selector;
