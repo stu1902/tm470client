@@ -6,40 +6,44 @@ import { personCircle } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { IonItem, IonLabel, IonInput, IonButton, IonIcon, IonAlert } from '@ionic/react';
 
-function validateEmail(email: string) {
-    const re = /^((?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\]))$/;
-    return re.test(String(email).toLowerCase());
-}
+
 const Login: React.FC = () => {
     const history = useHistory();
-    const [email, setEmail] = useState<string>("12345678");
+    const [login, setLogin] = useState<string>("12345678");
     const [password, setPassword] = useState<string>("5060");
     const [iserror, setIserror] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
+
     const handleLogin = () => {
-        if (!email) {
-            setMessage("Please enter a valid email");
+        if (!login) {
+            setMessage("Please enter a valid personnel number");
             setIserror(true);
             return;
         }
-        if (!validateEmail(email)) {
-            setMessage("Your personnel number is not recognised.");
+
+        if (login.length !== 8) {
+            setMessage("Please enter your 8 digit personnel number");
             setIserror(true);
             return;
         }
 
         if (!password || password.length !== 4) {
-            setMessage("Please enter your PIN Number");
+            setMessage("Please enter your 4 digit PIN Number");
             setIserror(true);
             return;
         }
 
+
         const loginData = {
-            "email": email,
+            "login": login,
             "password": password
         }
 
+        alert(loginData.login + loginData.password);
     };
+
+
+
 
     return (
         <IonPage>
@@ -65,7 +69,7 @@ const Login: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonIcon
-                                style={{ fontSize: "70px", color: "#7a0101" }}
+                                style={{ fontSize: "70px", color: "#eb445a" }}
                                 icon={personCircle}
                             />
                         </IonCol>
@@ -75,11 +79,11 @@ const Login: React.FC = () => {
                             <IonItem>
                                 <IonLabel position="floating"> Personnel Number </IonLabel>
                                 <IonInput
-                                    type="email"
-                                    value={email}
+                                    type="text"
+                                    value={login}
                                     minlength={8}
                                     maxlength={8}
-                                    onIonChange={(e) => setEmail(e.detail.value!)}
+                                    onIonChange={(e) => setLogin(e.detail.value!)}
                                 >
                                 </IonInput>
                             </IonItem>
@@ -101,12 +105,14 @@ const Login: React.FC = () => {
                             </IonItem>
                         </IonCol>
                     </IonRow>
+
                     <IonRow>
                         <IonCol>
                             <p style={{ fontSize: "small" }}>
                                 By clicking LOGIN you agree to our acceptable use Policy
                             </p>
-                            <IonButton expand="block" onClick={handleLogin}>Login</IonButton>
+                            <IonButton color="danger" onClick={handleLogin}>Login</IonButton>
+
                             <p style={{ fontSize: "medium" }}>
                                 Don't have an account? Please contact your line manager.
                             </p>
