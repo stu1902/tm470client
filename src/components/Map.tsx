@@ -1,11 +1,11 @@
 import React from 'react'
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
-import LocationPin from "./Location";
+
 
 
 const containerStyle = {
-    width: '50%',
-    height: '50%'
+    width: '100%',
+    height: '60%'
 };
 
 const center = {
@@ -35,7 +35,7 @@ function MyMap() {
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
-                zoom={10}
+                zoom={18}
             >
                 {/* Child components, such as markers, info windows, etc. */ }
                 <></>

@@ -2,3 +2,16 @@ ion-toolbar{
     display:block;
     text-align: center;
 }
+
+.stopwatch{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30%;
+    padding-right: 30%;
+
+}
+
+.numbers{
+    font-size: xx-large;
+    background-color: #0d0d0d;
+}

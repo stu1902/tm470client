@@ -1,6 +1,7 @@
 import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@ionic/react';
 import MyMap from "../components/Map";
 import './Home.css';
+import Stopwatch from "../components/Stopwatch";
 
 const Mapping: React.FC = () => {
     return (
@@ -17,6 +18,7 @@ const Mapping: React.FC = () => {
                                 </IonToolbar>
                             </IonHeader>
                             <MyMap />
+                <Stopwatch />
             </IonContent>
         </IonPage>
     );

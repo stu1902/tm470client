@@ -2,26 +2,27 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/rea
 import React, { useState } from 'react';
 import van from '../images/van.png';
 import { IonGrid, IonRow, IonCol } from '@ionic/react';
-import {navigateCircle, personCircle} from "ionicons/icons";
+import { navigateCircle } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { IonItem, IonLabel, IonInput, IonButton, IonIcon, IonAlert } from '@ionic/react';
+import axios from "axios";
 
 const Selector: React.FC = () => {
     const history = useHistory();
     const [location, setLocation] = useState<string>("Aberystwyth");
     const [route, setRoute] = useState<string>("Cwmystwyth");
-    const [iserror, setIserror] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
     const handleSelect = () => {
         if (!location) {
             setMessage("Please enter a valid delivery location");
-            setIserror(true);
+            setIsError(true);
             return;
         }
         /*
         if (!validateLocation(location)) {
             setMessage("This delivery location is not recognised.");
-            setIserror(true);
+            setIsError(true);
             return;
         }
 
@@ -29,7 +30,7 @@ const Selector: React.FC = () => {
          */
         if (!route) {
             setMessage("Please enter your delivery route");
-            setIserror(true);
+            setIsError(true);
             return;
         }
 
@@ -37,6 +38,18 @@ const Selector: React.FC = () => {
             "location": location,
             "route": route
         }
+
+        const api = axios.create({
+            baseURL: `https://reqres.in/api`
+        })
+        api.post("/login", selectData)
+            .then(res => {
+                history.push("/dashboard/" + selectData);
+            })
+            .catch(error=>{
+                setMessage("Auth failure! Please create an account");
+                setIsError(true)
+            })
 
     };
 
@@ -52,8 +65,8 @@ const Selector: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonAlert
-                                isOpen={iserror}
-                                onDidDismiss={() => setIserror(false)}
+                                isOpen={isError}
+                                onDidDismiss={() => setIsError(false)}
                                 cssClass="my-custom-class"
                                 header={"Error!"}
                                 message={message}

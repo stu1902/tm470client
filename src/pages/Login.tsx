@@ -5,41 +5,53 @@ import { IonGrid, IonRow, IonCol } from '@ionic/react';
 import { personCircle } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import { IonItem, IonLabel, IonInput, IonButton, IonIcon, IonAlert } from '@ionic/react';
-
+import axios from "axios";
 
 const Login: React.FC = () => {
     const history = useHistory();
     const [login, setLogin] = useState<string>("12345678");
     const [password, setPassword] = useState<string>("5060");
-    const [iserror, setIserror] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
 
     const handleLogin = () => {
         if (!login) {
             setMessage("Please enter a valid personnel number");
-            setIserror(true);
+            setIsError(true);
             return;
         }
 
         if (login.length !== 8) {
             setMessage("Please enter your 8 digit personnel number");
-            setIserror(true);
+            setIsError(true);
             return;
         }
 
         if (!password || password.length !== 4) {
             setMessage("Please enter your 4 digit PIN Number");
-            setIserror(true);
+            setIsError(true);
             return;
         }
 
 
         const loginData = {
-            "login": login,
-            "password": password
+            login: login,
+            password: password
         }
 
-        alert(loginData.login + loginData.password);
+        //alert(loginData.login + " " + loginData.password);
+
+        const api = axios.create({
+            baseURL: `https://reqres.in/api`
+        })
+        api.post("/login", loginData)
+            .then(res => {
+                history.push("/dashboard/" + loginData);
+            })
+            .catch(error=>{
+                setMessage("Auth failure! Please create an account");
+                setIsError(true)
+            })
     };
 
 
@@ -57,8 +69,8 @@ const Login: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonAlert
-                                isOpen={iserror}
-                                onDidDismiss={() => setIserror(false)}
+                                isOpen={isError}
+                                onDidDismiss={() => setIsError(false)}
                                 cssClass="my-custom-class"
                                 header={"Error!"}
                                 message={message}
