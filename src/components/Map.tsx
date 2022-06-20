@@ -1,5 +1,5 @@
 import React from 'react'
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 
 
@@ -8,10 +8,6 @@ const containerStyle = {
     height: '60%'
 };
 
-const center = {
-    lat: 52.407690,
-    lng: -4.058900
-};
 
 const getUserLocation = () => {
     if (navigator.geolocation) {
@@ -27,6 +23,12 @@ const getUserLocation = () => {
     }
 };
 
+const center = {
+    lat: 52.407690,
+    lng: -4.058900
+};
+
+
 function MyMap() {
     return (
         <LoadScript
@@ -37,11 +39,19 @@ function MyMap() {
                 center={center}
                 zoom={18}
             >
-                {/* Child components, such as markers, info windows, etc. */ }
-                <></>
+
+
+                {/* Child components, such as markers, info windows, etc. */}
+
+                <>
+                    <Marker position={center}/>
+                </>
             </GoogleMap>
         </LoadScript>
+
     )
 }
 
 export default React.memo(MyMap)
+
+

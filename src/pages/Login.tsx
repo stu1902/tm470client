@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import van from '../images/van.png';
 import { IonGrid, IonRow, IonCol } from '@ionic/react';
 import { personCircle } from "ionicons/icons";
@@ -7,32 +7,29 @@ import { useHistory } from "react-router-dom";
 import { IonItem, IonLabel, IonInput, IonButton, IonIcon, IonAlert } from '@ionic/react';
 import axios from "axios";
 
+
+
 const Login: React.FC = () => {
     const history = useHistory();
     const [login, setLogin] = useState<string>("12345678");
     const [password, setPassword] = useState<string>("5060");
     const [isError, setIsError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
+    const [data, setData] = React.useState<string>("");
 
     const handleLogin = () => {
-        if (!login) {
-            setMessage("Please enter a valid personnel number");
-            setIsError(true);
-            return;
-        }
-
-        if (login.length !== 8) {
+        if (!login || login.length !== 8) {
             setMessage("Please enter your 8 digit personnel number");
             setIsError(true);
             return;
         }
+
 
         if (!password || password.length !== 4) {
             setMessage("Please enter your 4 digit PIN Number");
             setIsError(true);
             return;
         }
-
 
         const loginData = {
             login: login,
@@ -42,16 +39,22 @@ const Login: React.FC = () => {
         //alert(loginData.login + " " + loginData.password);
 
         const api = axios.create({
-            baseURL: `https://reqres.in/api`
+            baseURL: `http://localhost:3000`,
         })
-        api.post("/login", loginData)
+        api.get("/user/" + login)
             .then(res => {
-                history.push("/dashboard/" + loginData);
+                const output = res.data;
+                setData(output);
+                console.log(output.data[0].pernumber, output.data[0].password);
             })
             .catch(error=>{
-                setMessage("Auth failure! Please create an account");
+                setMessage("This personnel number is not recognised. Please try again.");
                 setIsError(true)
             })
+
+        if (data !== "") {
+
+        }
     };
 
 
