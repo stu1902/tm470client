@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-
+import { Geolocation } from "@capacitor/geolocation";
 
 
 const containerStyle = {
@@ -9,27 +9,26 @@ const containerStyle = {
 };
 
 
-const getUserLocation = () => {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
+const getUserLocation = async () => {
+        await navigator.geolocation.getCurrentPosition(position => {
             const userLocation = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             };
             console.log(userLocation); // ADDED
         });
-    } else {
-        // code for legacy browsers
-    }
 };
 
-const center = {
+let center = {
     lat: 52.407690,
     lng: -4.058900
 };
 
 
 function MyMap() {
+
+    const [locate, setLocate] = useState({center});
+
     return (
         <LoadScript
             googleMapsApiKey="AIzaSyDKMu8IDKw9l9aTgCVIKVagqwTg46GLpc0"

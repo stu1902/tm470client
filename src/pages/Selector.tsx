@@ -1,10 +1,25 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import {
+    IonAlert,
+    IonButton,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonPage,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
 import React, { useState } from 'react';
 import van from '../images/van.png';
-import { IonGrid, IonRow, IonCol } from '@ionic/react';
 import { navigateCircle } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
-import { IonItem, IonLabel, IonInput, IonButton, IonIcon, IonAlert } from '@ionic/react';
 import axios from "axios";
 
 const Selector: React.FC = () => {
@@ -13,6 +28,7 @@ const Selector: React.FC = () => {
     const [route, setRoute] = useState<string>("Cwmystwyth");
     const [isError, setIsError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
+
     const handleSelect = () => {
         if (!location) {
             setMessage("Please enter a valid delivery location");
@@ -40,14 +56,16 @@ const Selector: React.FC = () => {
         }
 
         const api = axios.create({
-            baseURL: `https://reqres.in/api`
+            baseURL: `http://localhost:3000`
         })
-        api.post("/login", selectData)
+        api.get("/location/" + location)
             .then(res => {
+                console.log(res.data);
                 history.push("/dashboard/" + selectData);
+                alert('You have selected ' + location + ' as your location and ' + route + " as your route.");
             })
-            .catch(error=>{
-                setMessage("Auth failure! Please create an account");
+            .catch(error => {
+                setMessage("This location is not recognised.");
                 setIsError(true)
             })
 
@@ -77,7 +95,7 @@ const Selector: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonIcon
-                                style={{ fontSize: "70px", color: "#7a0101" }}
+                                style={{fontSize: "70px", color: "#7a0101"}}
                                 icon={navigateCircle}
                             />
                         </IonCol>
@@ -86,12 +104,20 @@ const Selector: React.FC = () => {
                         <IonCol>
                             <IonItem>
                                 <IonLabel position="floating"> Delivery Location </IonLabel>
-                                <IonInput
-                                    type="text"
-                                    value={location}
-                                    onIonChange={(e) => setLocation(e.detail.value!)}
-                                >
-                                </IonInput>
+                                <IonSelect placeholder="Select Delivery Location">
+                                    <IonSelectOption value="Aberystwyth">Aberystwyth</IonSelectOption>
+                                    <IonSelectOption value="Bala">Bala</IonSelectOption>
+                                    <IonSelectOption value="Corwen">Corwen</IonSelectOption>
+                                    <IonSelectOption value="Craven Arms">Craven Arms</IonSelectOption>
+                                    <IonSelectOption value="Dolgellau">Dolgellau</IonSelectOption>
+                                    <IonSelectOption value="Ludlow">Ludlow</IonSelectOption>
+                                    <IonSelectOption value="Machynlleth">Machynlleth</IonSelectOption>
+                                    <IonSelectOption value="Newtown">Newtown</IonSelectOption>
+                                    <IonSelectOption value="Oswestry">Oswestry</IonSelectOption>
+                                    <IonSelectOption value="Shrewsbury">Shrewsbury</IonSelectOption>
+                                    <IonSelectOption value="Welshpool">Welshpool</IonSelectOption>
+                                    <IonSelectOption value="Whitchurch">Whitchurch</IonSelectOption>
+                                </IonSelect>
                             </IonItem>
                         </IonCol>
                     </IonRow>
@@ -111,11 +137,11 @@ const Selector: React.FC = () => {
                     </IonRow>
                     <IonRow>
                         <IonCol>
-                            <p style={{ fontSize: "medium" }}>
+                            <p style={{fontSize: "medium"}}>
                                 Please click SUBMIT to confirm your options.
                             </p>
                             <IonButton expand="block" onClick={handleSelect}>Submit</IonButton>
-                            <p style={{ fontSize: "medium" }}>
+                            <p style={{fontSize: "medium"}}>
                                 Don't have an account? Please contact your line manager.
                             </p>
                             <img src={van} alt={"van"} width={"200"}/>

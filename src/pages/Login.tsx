@@ -16,7 +16,7 @@ const Login: React.FC = () => {
     const [isError, setIsError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
     const [data, setData] = React.useState<string>("");
-
+    const [auth, setAuth] = useState<boolean>(false);
     const handleLogin = () => {
         if (!login || login.length !== 8) {
             setMessage("Please enter your 8 digit personnel number");
@@ -46,15 +46,22 @@ const Login: React.FC = () => {
                 const output = res.data;
                 setData(output);
                 console.log(output.data[0].pernumber, output.data[0].password);
+                alert('Hello, ' + output.data[0].username + '. You have successfully logged in.');
+                setAuth(true);
             })
             .catch(error=>{
                 setMessage("This personnel number is not recognised. Please try again.");
                 setIsError(true)
+                setAuth(false)
             })
 
-        if (data !== "") {
-
+        if (auth) {
+            history.push('/select');
+        } else {
+            alert("This Personnel number / PIN Number combination is incorrect. Please try again.");
         }
+
+
     };
 
 
@@ -108,7 +115,7 @@ const Login: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonItem>
-                                <IonLabel position="floating"> PIN Number</IonLabel>
+                                <IonLabel position="floating">PIN Number</IonLabel>
                                 <IonInput
                                     type="password"
                                     value={password}
@@ -131,7 +138,7 @@ const Login: React.FC = () => {
                             <p style={{ fontSize: "medium" }}>
                                 Don't have an account? Please contact your line manager.
                             </p>
-                            <img src={van} alt={"van"} width={"200"}/>
+                            <img src={van} alt={"van"} width={"200"} />
                         </IonCol>
                     </IonRow>
                 </IonGrid>
