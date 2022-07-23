@@ -61,7 +61,8 @@ const Selector: React.FC = () => {
         api.get("/location/" + location)
             .then(res => {
                 console.log(res.data);
-                history.push("/dashboard/" + selectData);
+                //history.push("/dashboard/" + selectData);
+                history.push("/map/");
                 alert('You have selected ' + location + ' as your location and ' + route + " as your route.");
             })
             .catch(error => {

@@ -12,13 +12,13 @@ const Mapping: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen className="ion-padding ion-text-center">
-                            <IonHeader collapse="condense">
-                                <IonToolbar>
-                                    <IonTitle size="large">TM470 Map Page</IonTitle>
-                                </IonToolbar>
-                            </IonHeader>
-                            <MyMap />
-                <Stopwatch />
+                <IonHeader collapse="condense">
+                    <IonToolbar>
+                        <IonTitle size="large">TM470 Map Page</IonTitle>
+                    </IonToolbar>
+                </IonHeader>
+                <MyMap/>
+                <Stopwatch/>
             </IonContent>
         </IonPage>
     );

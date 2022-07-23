@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, KmlLayer } from '@react-google-maps/api';
 import { Geolocation } from "@capacitor/geolocation";
+
 
 
 const containerStyle = {
